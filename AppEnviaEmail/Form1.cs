@@ -7,6 +7,11 @@ namespace AppEnviaEmail
 {
     public partial class Form1 : Form
     {
+        uint ret;
+        string strFIRHex;
+        string strFIRText;
+        NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
+        string strFIRText15; // variável para armazenar a string de 15 caracteres
 
 
         public Form1()
@@ -26,46 +31,48 @@ namespace AppEnviaEmail
             Biometric m_Biometric = new Biometric();
             List<string> devices = new List<string>();
 
-            devices = m_Biometric.Iniciador(); // Inicializa o scanner
 
-            // Adiciona os dispositivos encontrado disponíveis no comboBox
-            comboDevice.Items.Add("Auto_Detect");
-            foreach (var deviceID in devices)
-            {
-                switch (deviceID)
+                comboDevice.Items.Add("Auto_Detect");
                 {
-                    case "FDU01":
-                        comboDevice.Items.Add("FDU01");
-                        break;
+                    {
+                            comboDevice.Items.Add("FDU01");
+                            break;
+                    }
                 }
+
+
             }
-
-
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             /*
-             * Captura a imagem do dedo e armazena no banco de dados             
              */
 
-            // Instacia o objeto de biometria
-            Biometric m_Biometric = new Biometric();
-            m_Biometric.Captura(); // Captura a digital
+            }
+            else
+                // Dispositivo inicializado com insucesso ...  ...  
+                label1.Text = "Dedo não detectado.";
+
+            ret = m_NBioAPI.CloseDevice(NBioAPI.Type.DEVICE_ID.AUTO);
+            if (ret == NBioAPI.Error.NONE)
+            {
+                // Dispositivo encerrado com sucesso ...  
+                MessageBox.Show("Scanner encerrado.", "Encerramento", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                // Falha ao fechar dispositivo ...  
+                MessageBox.Show("Falha ao fechar dispositivo.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             /*
-            * Compara a imagem do dedo e armazenada no banco de dados   
-            * com a imagem digitada e valida o usuário
-            */
+             */
 
-            // Instacia o objeto de biometria
-            Biometric m_Biometric = new Biometric();
-            bool validacao = m_Biometric.Comparar(); // Compara a digital
 
-            // Lógica para validação a partir daqui
 
         }
     }

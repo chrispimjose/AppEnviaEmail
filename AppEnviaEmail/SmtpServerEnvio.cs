@@ -11,7 +11,6 @@ namespace AppEnviaEmail
         private const string emailEnvio = "josepadilha@gmail.com";
 
         // E-mail que receberá a mensagem
-        private const string emailDestino = "jose.chrispim@animaeducacao.com.br";
 
         //erivelton.lima @animaeducacao.com.br
         // jose.chrispim@animaeducacao.com.br
@@ -52,10 +51,8 @@ namespace AppEnviaEmail
             {
                 From = new MailAddress(emailEnvio, "Serviço de Odontologia"), // Remetente com nome personalizado
                 SubjectEncoding = Encoding.UTF8,                              // Codificação do assunto   
-                Subject = "Serviço de Odontologia - Confirmação da entrega de caixa para esterilização",  // Assunto do e-mail
                 IsBodyHtml = true,                                            // Habilita HTML no corpo
                 BodyEncoding = Encoding.UTF8,                                 // Codificação do corpo
-                Body = "Prezado José Padilha" + "<br><br>" + "Esse email é a confirmação da entrega da caixa do procedimento: Ortodôntico, entregue na data: " + dataHoraAtual + "  horas,  pelo Serviço de Odontologia da UNP." + "<br><br>" + "Você validou a entrega através de captura biométrica à na data: "  + dataHoraAtual + " horas conforme registrado no sistema." + "<br><br>" + "Assinatura digital: " + assinatura + "<br><br>"                                               // Corpo da mensagem                     
             };
 
             msg.To.Add(new MailAddress(emailDestino)); // Adiciona destinatário
