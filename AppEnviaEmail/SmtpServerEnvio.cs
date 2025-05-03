@@ -52,8 +52,12 @@ namespace AppEnviaEmail
             {
                 From = new MailAddress(emailEnvio, "Serviço de Odontologia"), // Remetente com nome personalizado
                 SubjectEncoding = Encoding.UTF8,                              // Codificação do assunto   
+                Subject = "Serviço de Odontologia - Confirmação da entrega de caixa para esterilização", // Assunto do e-mail
                 IsBodyHtml = true,                                            // Habilita HTML no corpo
                 BodyEncoding = Encoding.UTF8,                                 // Codificação do corpo
+                // Corpo do e-mail
+                Body = "Esse email é a confirmação da entrega da caixa do procedimento: Ortodôntico, entregue na data: " + dataHoraAtual.ToString("dd/MM/yyyy HH:mm") + " horas, pelo Serviço de Odontologia da UNP.<br><br>Você validou a entrega através de captura biométrica na data: " + dataHoraAtual.ToString("dd/MM/yyyy HH:mm") + " horas conforme registrado no sistema.<br> <br >Assinatura digital da entrega:<br>" + assinatura +" <br><br>" 
+
             };
 
             msg.To.Add(new MailAddress(emailDestino)); // Adiciona destinatário
