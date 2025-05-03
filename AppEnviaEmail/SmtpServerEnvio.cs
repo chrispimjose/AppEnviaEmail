@@ -11,7 +11,8 @@ namespace AppEnviaEmail
         private const string emailEnvio = "josepadilha@gmail.com";
 
         // E-mail que receberá a mensagem
-
+        private const string emailDestino = "jose.chrispim@animaeducacao.com.br";
+        
         //erivelton.lima @animaeducacao.com.br
         // jose.chrispim@animaeducacao.com.br
 

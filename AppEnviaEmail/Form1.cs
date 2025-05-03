@@ -22,7 +22,7 @@ namespace AppEnviaEmail
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // SmtpServerEnvio.ProcessarEmail();
+            // SmtpServerEnvio.ProcessarEmail();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -31,49 +31,36 @@ namespace AppEnviaEmail
             Biometric m_Biometric = new Biometric();
             List<string> devices = new List<string>();
 
-
-                comboDevice.Items.Add("Auto_Detect");
-                {
-                    {
-                            comboDevice.Items.Add("FDU01");
-                            break;
-                    }
-                }
+            devices = m_Biometric.Iniciador();
 
 
+            foreach (string item in devices)
+            {
+                comboDevice.Items.Add(item);
             }
+
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             /*
+             * Captura a biometria
              */
 
-            }
-            else
-                // Dispositivo inicializado com insucesso ...  ...  
-                label1.Text = "Dedo não detectado.";
+            Biometric biometric = new Biometric();
+            biometric.Captura();
 
-            ret = m_NBioAPI.CloseDevice(NBioAPI.Type.DEVICE_ID.AUTO);
-            if (ret == NBioAPI.Error.NONE)
-            {
-                // Dispositivo encerrado com sucesso ...  
-                MessageBox.Show("Scanner encerrado.", "Encerramento", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                // Falha ao fechar dispositivo ...  
-                MessageBox.Show("Falha ao fechar dispositivo.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
             /*
+             * Captura e compara a biometria
              */
 
-
-
+            Biometric biometric = new Biometric();
+            biometric.Comparar();
         }
     }
 }
