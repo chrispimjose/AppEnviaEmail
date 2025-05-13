@@ -20,7 +20,7 @@ namespace AppEnviaEmail.src.DAO
 
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@nome", user.Name);
-                command.Parameters.AddWithValue("@digital_code", user.DigitalCode);
+                command.Parameters.AddWithValue("@digital_code", user.biFIR);
 
                 command.ExecuteNonQuery();
             }

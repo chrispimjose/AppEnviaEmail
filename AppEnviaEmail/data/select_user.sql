@@ -1,0 +1,1 @@
+select nome, HEX(digital_code) as digital from usuarios;

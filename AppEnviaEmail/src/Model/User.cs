@@ -10,15 +10,12 @@ namespace AppEnviaEmail.src.Model
 {
     internal class User
     {
-        private string nome;
-        private FIR biFIR;
-
         public string Name { get; set; }
         public FIR biFIR { get; set; }
 
         public User(string nome, FIR binaryFingerPrintRecord)
         {
-            this.nome = nome;
+            this.Name = nome;
             this.biFIR = binaryFingerPrintRecord;
         }
     }

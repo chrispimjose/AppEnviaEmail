@@ -1,4 +1,6 @@
 ﻿using System.Text.RegularExpressions;
+using AppEnviaEmail.src.DAO;
+using AppEnviaEmail.src.Model;
 using NITGEN.SDK.NBioBSP;
 
 namespace AppEnviaEmail
@@ -73,7 +75,8 @@ namespace AppEnviaEmail
                                 // Utiliza o FIR gravado em string  
                 NBioAPI.Type.FIR_TEXTENCODE textFIR;
                 m_NBioAPI.GetTextFIRFromHandle(hNewFIR, out textFIR, true);
-                // Grava o FIR no banco de dados  
+
+                PersistirNoBanco(nome);
 
                 // Converte biFIR para hexadecimal  
                 strFIRHex = BitConverter.ToString(biFIR.Data).Replace("-", ""); // Converte para hex sem hífens  
@@ -98,6 +101,12 @@ namespace AppEnviaEmail
                 // Falha ao fechar dispositivo ...  
                 MessageBox.Show("Falha ao fechar dispositivo.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static void PersistirNoBanco(string nome)
+        {
+            var user = new User(nome, biFIR1);
+            UserDAO.Create(user);
         }
 
         public bool Comparar()
