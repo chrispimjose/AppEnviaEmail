@@ -12,12 +12,29 @@ namespace AppEnviaEmail
         string strFIRText;
         NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
         string strFIRText15; // variável para armazenar a string de 15 caracteres
+        private TextBox txtNome; 
+        private Label lblNome;
 
 
         public Form1()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
+            ConfigurarLabelNome();
+        }
+
+        private void ConfigurarLabelNome()
+        {
+            lblNome = new Label();
+            lblNome.Text = "Nome:";
+            lblNome.Location = new Point(20, 20);
+            lblNome.Size = new Size(100, 20);
+            this.Controls.Add(lblNome);
+
+            txtNome = new TextBox();
+            txtNome.Location = new Point(120, 20);
+            txtNome.Size = new Size(200, 20);
+            this.Controls.Add(txtNome);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,8 +65,10 @@ namespace AppEnviaEmail
              * Captura a biometria
              */
 
+            string nome = txtNome.Text.Trim();
+
             Biometric biometric = new Biometric();
-            biometric.Captura();
+            biometric.Captura(nome);
 
         }
 
