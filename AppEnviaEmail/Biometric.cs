@@ -7,10 +7,10 @@ namespace AppEnviaEmail
 {
     public class Biometric
     {
-        uint ret; 
+        uint ret;
         string strFIRHex;
         string strFIRText;
-        private static  NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
+        private static NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
         string strFIRText16; // variável para armazenar a string de 15 caracteres
 
         public List<string> Iniciador()
@@ -76,7 +76,7 @@ namespace AppEnviaEmail
                 NBioAPI.Type.FIR_TEXTENCODE textFIR;
                 m_NBioAPI.GetTextFIRFromHandle(hNewFIR, out textFIR, true);
 
-                PersistirNoBanco(nome);
+                PersistirNoDatabase(nome);
 
                 // Converte biFIR para hexadecimal  
                 strFIRHex = BitConverter.ToString(biFIR.Data).Replace("-", ""); // Converte para hex sem hífens  
@@ -103,12 +103,6 @@ namespace AppEnviaEmail
             }
         }
 
-        private static void PersistirNoBanco(string nome)
-        {
-            var user = new User(nome, biFIR1);
-            UserDAO.Create(user);
-        }
-
         public bool Comparar()
         {
             /*
@@ -125,7 +119,7 @@ namespace AppEnviaEmail
             // Inicia o scanner plugado e obtém o ID do dispositivo
             m_NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
             // Inicia o parámetro para e-mail
-            string formatado="";
+            string formatado = "";
 
             //Handle to Full Image Record - variável que obtem a imagem da digital
             NBioAPI.Type.HFIR hNewFIR2;
@@ -154,7 +148,7 @@ namespace AppEnviaEmail
                                 "Captura", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
-                
+
 
                 // Verifica se a string tem pelo menos 16 caracteres
                 if (strFIRText.Length >= 16)
@@ -169,7 +163,7 @@ namespace AppEnviaEmail
                     formatado = Regex.Replace(strFIRText16, ".{4}", "$0."); // Insere ponto após cada grupo de 4 usando REGEX
                     formatado = formatado.TrimEnd('.'); // Remove o ponto final extra e gera a assinatura digital
 
-                    MessageBox.Show("Mostra a assinatura digital: "+ formatado, "Informa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Mostra a assinatura digital: " + formatado, "Informa", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
                 }
@@ -235,6 +229,10 @@ namespace AppEnviaEmail
             return true; // Retorna verdadeiro para indicar que a comparação foi realizada
 
         }
-
+        private static void PersistirNoDatabase(string nome)
+        {
+            var user = new User(nome, biFIR1);
+            UserDAO.Create(user);
+        }
     }
 }
