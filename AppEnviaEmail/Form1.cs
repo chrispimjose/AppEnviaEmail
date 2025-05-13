@@ -20,7 +20,11 @@ namespace AppEnviaEmail
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
+            ConfigurarLabelNome();
+        }
 
+        private void ConfigurarLabelNome()
+        {
             lblNome = new Label();
             lblNome.Text = "Nome:";
             lblNome.Location = new Point(20, 20);
