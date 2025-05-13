@@ -41,7 +41,7 @@ namespace AppEnviaEmail
             return devices;
         }
 
-        public void Captura()
+        public void Captura(string nome)
         {
             /*
             * Método para captura da imagem e armazenar no banco de dados             
