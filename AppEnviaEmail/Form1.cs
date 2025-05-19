@@ -12,7 +12,7 @@ namespace AppEnviaEmail
         string strFIRText;
         NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
         string strFIRText15; // variável para armazenar a string de 15 caracteres
-        private TextBox txtNome; 
+        private TextBox txtNome;
         private Label lblNome;
 
 
@@ -80,6 +80,11 @@ namespace AppEnviaEmail
 
             Biometric biometric = new Biometric();
             biometric.Comparar();
+        }
+
+        private void BTN_VerificarExistencia(object sender, EventArgs e)
+        {
+
         }
     }
 }
