@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AppEnviaEmail.src.Model;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using static AppEnviaEmail.src.Service.ConnectionFactory;
+using static NITGEN.SDK.NBioBSP.NBioAPI.Type;
 
 namespace AppEnviaEmail.src.DAO
 {
@@ -15,7 +17,7 @@ namespace AppEnviaEmail.src.DAO
         {
             using (var connection = GetConnection())
             {
-                VerificarSeDigitalExiste(user, connection);
+                VerificarSeDigitalExisteAoCadastrar(user, connection);
 
                 string sql = "INSERT INTO usuarios (nome, digital_code) " +
                     "VALUES (@nome, @digital_code)";
@@ -28,7 +30,7 @@ namespace AppEnviaEmail.src.DAO
             }
         }
 
-        private static void VerificarSeDigitalExiste(User user, MySqlConnection connection)
+        private static void VerificarSeDigitalExisteAoCadastrar(User user, MySqlConnection connection)
         {
             string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_code = @digital_code";
             MySqlCommand checkCommand = new MySqlCommand(checkSql, connection);
@@ -40,6 +42,30 @@ namespace AppEnviaEmail.src.DAO
             {
                 throw new InvalidOperationException("Essa digital já está cadastrada no sistema.");
             }
+        }
+
+        public static void BuscarDigital(User user)
+        {
+            using (var connection = GetConnection())
+            {
+                //string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_code = @digital_code";
+                string sql = "select nome, HEX(digital_code) as digital from usuarios where nome = '" + user.Name + "';";
+                MySqlCommand command = new MySqlCommand(sql, connection);
+
+                command.Parameters.AddWithValue("@nome", user.Name);
+
+
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(" >>>>> Digital:"+ reader["digital"]);
+                    }
+                }
+
+            }
+
         }
     }
 }

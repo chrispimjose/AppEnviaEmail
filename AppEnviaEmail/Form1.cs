@@ -1,7 +1,9 @@
 using System.Text.RegularExpressions;
+using AppEnviaEmail.src.Service;
 using NITGEN.SDK.NBioBSP;
 using Org.BouncyCastle.Ocsp;
 using static NITGEN.SDK.NBioBSP.NBioAPI.Type;
+using static AppEnviaEmail.src.Service.LeitorDigital;
 
 namespace AppEnviaEmail
 {
@@ -84,7 +86,9 @@ namespace AppEnviaEmail
 
         private void BTN_VerificarExistencia(object sender, EventArgs e)
         {
+            string nome = txtNome.Text.Trim();
 
+            CapturaDigitalSemPersistir(nome);
         }
     }
 }
