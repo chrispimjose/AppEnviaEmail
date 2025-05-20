@@ -52,7 +52,7 @@ namespace AppEnviaEmail.src.Service
 
                 Show("Digital capturada com sucesso", "Sucesso", OK, Information);
 
-                UserDAO.BuscarDigital(new User(nome, currentBinaryFIR));
+                //UserDAO.BuscarDigital(new User(nome, currentBinaryFIR));
 
                 //bool isDigitalExists = UserDAO.BuscarDigital(
                 //    new User(nome, currentBinaryFIR)

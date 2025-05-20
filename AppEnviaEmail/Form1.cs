@@ -87,8 +87,7 @@ namespace AppEnviaEmail
         private void BTN_VerificarExistencia(object sender, EventArgs e)
         {
             string nome = txtNome.Text.Trim();
-
-            CapturaDigitalSemPersistir(nome);
+            LeitorBiometrico.Captura(nome);
         }
     }
 }

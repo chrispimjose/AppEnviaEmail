@@ -13,7 +13,7 @@ namespace AppEnviaEmail.src.DAO
 {
     internal class UserDAO
     {
-        public static void Create(User user)
+        public static void PersistUser(User user)
         {
             using (var connection = GetConnection())
             {
@@ -24,7 +24,7 @@ namespace AppEnviaEmail.src.DAO
 
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@nome", user.Name);
-                command.Parameters.AddWithValue("@digital_code", user.biFIR);
+                command.Parameters.AddWithValue("@digital_code", user.TextFIR);
 
                 command.ExecuteNonQuery();
             }
@@ -34,7 +34,7 @@ namespace AppEnviaEmail.src.DAO
         {
             string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_code = @digital_code";
             MySqlCommand checkCommand = new MySqlCommand(checkSql, connection);
-            checkCommand.Parameters.AddWithValue("@digital_code", user.biFIR);
+            checkCommand.Parameters.AddWithValue("@digital_code", user.TextFIR);
 
             long count = (long)checkCommand.ExecuteScalar();
 

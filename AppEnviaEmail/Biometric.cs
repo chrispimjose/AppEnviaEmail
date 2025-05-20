@@ -80,7 +80,8 @@ namespace AppEnviaEmail
 
                 // Converte biFIR para hexadecimal  
                 strFIRHex = BitConverter.ToString(biFIR.Data).Replace("-", ""); // Converte para hex sem hífens  
-                                                                                // Obtém a representação textual do textFIR  
+                
+                // Obtém a representação textual do textFIR  
                 strFIRText = textFIR.TextFIR; // Já está em formato texto (Base64 ou similar)  
 
                 PersistirNoDatabase(nome);
@@ -199,7 +200,7 @@ namespace AppEnviaEmail
             //ret = m_NBioAPI.VerifyMatch(hNewFIR2, biFIR1, out result, myPayload);
 
 
-            ret = m_NBioAPI.VerifyMatch(textFIR, biFIR1, out result, myPayload);
+            ret = m_NBioAPI.VerifyMatch(textFIR, textFIR, out result, myPayload);
 
 
             if (ret == NBioAPI.Error.NONE)
@@ -248,7 +249,7 @@ namespace AppEnviaEmail
         private static void PersistirNoDatabase(string nome)
         {
             var user = new User(nome, strFIRText);
-            UserDAO.Create(user);
+            UserDAO.PersistUser(user);
         }
     }
 }
