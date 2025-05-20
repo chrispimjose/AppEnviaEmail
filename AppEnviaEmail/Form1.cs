@@ -1,6 +1,10 @@
 using AppEnviaEmail.src.Service;
 using NITGEN.SDK.NBioBSP;
 
+using static AppEnviaEmail.src.Service.LeitorBiometrico;
+using static System.Windows.Forms.MessageBoxIcon;
+using static System.Windows.Forms.MessageBoxButtons;
+
 namespace AppEnviaEmail
 {
     public partial class Form1 : Form
@@ -80,10 +84,16 @@ namespace AppEnviaEmail
             biometric.Comparar();
         }
 
-        private void BTN_VerificarExistencia(object sender, EventArgs e)
+        private void BTN_CadastrarBiometria(object sender, EventArgs e)
         {
             string nome = txtNome.Text.Trim();
-            LeitorBiometrico.CadastrarDigitais(nome);
+            CadastrarDigitais(nome);
+        }
+
+        private void BTN_VerificarBiometria(object sender, EventArgs e)
+        {
+            string nome = txtNome.Text.Trim();
+            VerificarBiometria(nome);
         }
     }
 }

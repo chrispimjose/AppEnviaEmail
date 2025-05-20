@@ -30,7 +30,7 @@ namespace AppEnviaEmail.src.Service
 
                 if (apiResult != NONE)
                 {
-                    Show("Falha ao capturar a digital.");
+                    Show("Falha ao capturar a digital.", "Falha", OK, Warning);
                 }
                 else
                 {
@@ -54,9 +54,61 @@ namespace AppEnviaEmail.src.Service
             {
                 api.CloseDevice(DEVICE_ID.AUTO);
             }
+        }
+        public static void VerificarBiometria(string nome)
+        {
+            NBioAPI api = new NBioAPI();
+            api.OpenDevice(DEVICE_ID.AUTO);
 
+            try
+            {
+                uint returnFromAPI;
+                byte[] templateArmazenadoDB = BuscarDigitalPorNome(nome);
+                bool verifyResult;
 
+                if (templateArmazenadoDB.Length == 0)
+                {
+                    Show("Sem resultados no banco de dados");
+                }
 
+                FIR firDoTemplateArmazenadoDB = new FIR();
+                firDoTemplateArmazenadoDB.Data = templateArmazenadoDB;
+
+                // 4. Capturar uma nova digital para comparação
+                HFIR hCapturedFIR;
+                returnFromAPI = api.Capture(out hCapturedFIR);
+                if (returnFromAPI == NONE)
+                {
+                    // 5. Converter o FIR capturado para o mesmo formato
+                    FIR capturedFIR;
+                    api.GetFIRFromHandle(hCapturedFIR, out capturedFIR);
+
+                    // 6. Comparar as digitais
+                    bool matchResult;
+                    FIR_PAYLOAD payload = new FIR_PAYLOAD();
+                    returnFromAPI = api.Verify(firDoTemplateArmazenadoDB, out matchResult, payload);
+
+                    if (returnFromAPI == NONE && matchResult)
+                    {
+                        Show("Digital corresponde", "Verificado com sucesso");
+                        Show("Biometria encontrada com sucesso!", "Encontrada", OK, Information);
+                    }
+                    else
+                    {
+                        Show("Biometria não localizada ou inexistente.", "Não localizada", OK, Warning);
+                        Console.WriteLine("Digital NÃO corresponde!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Show(ex.Message);
+            }
+            finally
+            {
+                api.CloseDevice(DEVICE_ID.AUTO);
+            }
         }
     }
 }
+

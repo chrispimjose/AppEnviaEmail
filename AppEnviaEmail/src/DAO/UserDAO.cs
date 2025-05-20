@@ -44,26 +44,26 @@ namespace AppEnviaEmail.src.DAO
             }
         }
 
-        public static void BuscarDigital(User user)
+        public static byte[] BuscarDigitalPorNome(string nome)
         {
             using (var connection = GetConnection())
             {
-                //string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_code = @digital_code";
-                string sql = "select nome, HEX(digital_code) as digital from usuarios where nome = '" + user.Name + "';";
-                MySqlCommand command = new MySqlCommand(sql, connection);
+                string query = "SELECT digital_binaria FROM usuarios WHERE nome = @nome";
 
-                command.Parameters.AddWithValue("@nome", user.Name);
-
-
-
-                using (MySqlDataReader reader = command.ExecuteReader())
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    cmd.Parameters.AddWithValue("@nome", nome);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine(" >>>>> Digital:"+ reader["digital"]);
+                        if (reader.Read())
+                        {
+                            return (byte[])reader["digital_binaria"];
+                        }
                     }
                 }
 
+                return Array.Empty<byte>();
             }
 
         }
