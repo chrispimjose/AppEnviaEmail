@@ -62,43 +62,37 @@ namespace AppEnviaEmail.src.Service
 
             try
             {
-                uint returnFromAPI;
                 byte[] templateArmazenadoDB = BuscarDigitalPorNome(nome);
-                bool verifyResult;
+                FIR firDoTemplateArmazenadoDB = new FIR();
 
                 if (templateArmazenadoDB.Length == 0)
                 {
                     Show("Sem resultados no banco de dados");
                 }
+                else
+                {
+                    firDoTemplateArmazenadoDB.Data = templateArmazenadoDB; // Converte binário para FIR
+                }
 
-                FIR firDoTemplateArmazenadoDB = new FIR();
-                firDoTemplateArmazenadoDB.Data = templateArmazenadoDB;
 
-                // 4. Capturar uma nova digital para comparação
-                HFIR hCapturedFIR;
-                returnFromAPI = api.Capture(out hCapturedFIR);
+                uint returnFromAPI;
+                bool matchResult;
+
+
+                FIR_PAYLOAD myPayload = new FIR_PAYLOAD();
+                // Verifica o FIR em formato binário 
+                returnFromAPI = api.Verify(firDoTemplateArmazenadoDB, out matchResult, myPayload);
                 if (returnFromAPI == NONE)
                 {
-                    // 5. Converter o FIR capturado para o mesmo formato
-                    FIR capturedFIR;
-                    api.GetFIRFromHandle(hCapturedFIR, out capturedFIR);
-
-                    // 6. Comparar as digitais
-                    bool matchResult;
-                    FIR_PAYLOAD payload = new FIR_PAYLOAD();
-                    returnFromAPI = api.Verify(firDoTemplateArmazenadoDB, out matchResult, payload);
-
-                    if (returnFromAPI == NONE && matchResult)
+                    // Verificado com sucesso 
+                    // Payload checado 
+                    if (myPayload.Data == null)
                     {
-                        Show("Digital corresponde", "Verificado com sucesso");
+                        //var textPayload.Text = myPayload.Data;
                         Show("Biometria encontrada com sucesso!", "Encontrada", OK, Information);
                     }
-                    else
-                    {
-                        Show("Biometria não localizada ou inexistente.", "Não localizada", OK, Warning);
-                        Console.WriteLine("Digital NÃO corresponde!");
-                    }
                 }
+                else Show("Biometria não localizada ou inexistente.", "Não localizada", OK, Warning);
             }
             catch (Exception ex)
             {
