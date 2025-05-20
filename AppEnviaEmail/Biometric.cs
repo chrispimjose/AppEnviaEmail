@@ -9,9 +9,10 @@ namespace AppEnviaEmail
     {
         uint ret;
         string strFIRHex;
-        string strFIRText;
+        static string strFIRText;
         private static NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
         string strFIRText16; // variável para armazenar a string de 15 caracteres
+        static NBioAPI.Type.FIR_TEXTENCODE textFIR;
 
         public List<string> Iniciador()
         {
@@ -73,15 +74,16 @@ namespace AppEnviaEmail
                 m_NBioAPI.GetFIRFromHandle(hNewFIR, out biFIR);
                 biFIR1 = biFIR; // Armazena a digital em binário para comparação posterior
                                 // Utiliza o FIR gravado em string  
-                NBioAPI.Type.FIR_TEXTENCODE textFIR;
+                
                 m_NBioAPI.GetTextFIRFromHandle(hNewFIR, out textFIR, true);
 
-                PersistirNoDatabase(nome);
 
                 // Converte biFIR para hexadecimal  
                 strFIRHex = BitConverter.ToString(biFIR.Data).Replace("-", ""); // Converte para hex sem hífens  
                                                                                 // Obtém a representação textual do textFIR  
                 strFIRText = textFIR.TextFIR; // Já está em formato texto (Base64 ou similar)  
+
+                PersistirNoDatabase(nome);
                                               // Exibe o resultado  
                 MessageBox.Show($"Digital Hexadecimal: {strFIRHex}\nDigital Texto: {strFIRText}",
                                 "Captura", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -134,9 +136,16 @@ namespace AppEnviaEmail
                 // Utiliza o FIR gravado em binário
                 NBioAPI.Type.FIR biFIR;
                 m_NBioAPI.GetFIRFromHandle(hNewFIR2, out biFIR);
+                
+                //
                 // Utiliza o FIR gravado em string  
                 NBioAPI.Type.FIR_TEXTENCODE textFIR;
                 m_NBioAPI.GetTextFIRFromHandle(hNewFIR2, out textFIR, true);
+                //
+                //
+                // TODO Coloca o string no banco. Captura como string e compara
+               
+               
                 // Grava o FIR no banco de dados  
 
                 // Converte biFIR para hexadecimal  
@@ -181,10 +190,17 @@ namespace AppEnviaEmail
                 return false; // Retorna falso para indicar que a comparação não foi realizada
             }
 
+            
+            
+            
             // Verifica a digital capturada com a digital armazenada no banco de dados
             bool result;
             NBioAPI.Type.FIR_PAYLOAD myPayload = new NBioAPI.Type.FIR_PAYLOAD();
-            ret = m_NBioAPI.VerifyMatch(hNewFIR2, biFIR1, out result, myPayload);
+            //ret = m_NBioAPI.VerifyMatch(hNewFIR2, biFIR1, out result, myPayload);
+
+
+            ret = m_NBioAPI.VerifyMatch(textFIR, biFIR1, out result, myPayload);
+
 
             if (ret == NBioAPI.Error.NONE)
             {
@@ -231,7 +247,7 @@ namespace AppEnviaEmail
         }
         private static void PersistirNoDatabase(string nome)
         {
-            var user = new User(nome, biFIR1);
+            var user = new User(nome, strFIRText);
             UserDAO.Create(user);
         }
     }
