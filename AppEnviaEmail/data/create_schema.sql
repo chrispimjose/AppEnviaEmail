@@ -21,9 +21,10 @@ USE `database_odontologia` ;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    digital_binaria LONGBLOB,       -- Armazena FIR em formato binário
-    digital_texto LONGTEXT,         -- Armazena FIR em texto codificado
-    payload VARCHAR(255)            -- Dados adicionais (opcional)
+    -- cpf VARCHAR(14) UNIQUE,
+    digital_binaria LONGBLOB       -- Armazena FIR em formato binário
+    -- digital_texto LONGTEXT,         -- Armazena FIR em texto codificado
+    -- payload VARCHAR(255)            -- Dados adicionais (opcional)
 );
 
 

@@ -19,12 +19,12 @@ namespace AppEnviaEmail.src.DAO
             {
                 VerificarSeDigitalExisteAoCadastrar(user, connection);
 
-                string sql = "INSERT INTO usuarios (nome, digital_code) " +
-                    "VALUES (@nome, @digital_code)";
+                string sql = "INSERT INTO usuarios (nome, digital_binaria) " +
+                    "VALUES (@nome, @digital_binaria)";
 
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@nome", user.Name);
-                command.Parameters.AddWithValue("@digital_code", user.TextFIR);
+                command.Parameters.AddWithValue("@digital_binaria", user.DigitalBinaria);
 
                 command.ExecuteNonQuery();
             }
@@ -32,9 +32,9 @@ namespace AppEnviaEmail.src.DAO
 
         private static void VerificarSeDigitalExisteAoCadastrar(User user, MySqlConnection connection)
         {
-            string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_code = @digital_code";
+            string checkSql = "SELECT COUNT(*) FROM usuarios WHERE digital_binaria = @digital_binaria";
             MySqlCommand checkCommand = new MySqlCommand(checkSql, connection);
-            checkCommand.Parameters.AddWithValue("@digital_code", user.TextFIR);
+            checkCommand.Parameters.AddWithValue("@digital_binaria", user.DigitalBinaria);
 
             long count = (long)checkCommand.ExecuteScalar();
 
