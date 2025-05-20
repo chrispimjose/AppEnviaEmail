@@ -18,13 +18,14 @@ USE `database_odontologia` ;
 -- -----------------------------------------------------
 -- Table `database_odontologia`.`usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_odontologia`.`usuarios` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `digital_code` VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `digital_code_UNIQUE` (`digital_code` ASC))
-ENGINE = InnoDB;
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE,
+    digital_binaria LONGBLOB,       -- Armazena FIR em formato binário
+    digital_texto LONGTEXT,         -- Armazena FIR em texto codificado
+    payload VARCHAR(255)            -- Dados adicionais (opcional)
+);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
