@@ -84,7 +84,7 @@ namespace AppEnviaEmail
                 // Obtém a representação textual do textFIR  
                 strFIRText = textFIR.TextFIR; // Já está em formato texto (Base64 ou similar)  
 
-                PersistirNoDatabase(nome);
+                // PersistirNoDatabase(nome);
                                               // Exibe o resultado  
                 MessageBox.Show($"Digital Hexadecimal: {strFIRHex}\nDigital Texto: {strFIRText}",
                                 "Captura", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -246,10 +246,11 @@ namespace AppEnviaEmail
             return true; // Retorna verdadeiro para indicar que a comparação foi realizada
 
         }
-        private static void PersistirNoDatabase(string nome)
+        /* private static void PersistirNoDatabase(string nome)
         {
             var user = new User(nome, strFIRText);
             UserDAO.PersistUser(user);
         }
+        */
     }
 }

@@ -11,9 +11,9 @@ namespace AppEnviaEmail.src.Model
     internal class User
     {
         public string Name { get; set; }
-        public string TextFIR { get; set; }
+        public FIR_TEXTENCODE TextFIR { get; set; }
 
-        public User(string nome, string textFingerPrintRecord)
+        public User(string nome, FIR_TEXTENCODE textFingerPrintRecord)
         {
             this.Name = nome;
             this.TextFIR = textFingerPrintRecord;
