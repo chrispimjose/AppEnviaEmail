@@ -231,8 +231,8 @@ namespace AppEnviaEmail
         }
         private static void PersistirNoDatabase(string nome)
         {
-            var user = new User(nome, biFIR1);
-            UserDAO.Create(user);
+            //var user = new User(nome, biFIR1);
+            //UserDAO.Create(user);
         }
     }
 }

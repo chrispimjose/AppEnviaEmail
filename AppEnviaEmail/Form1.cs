@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using AppEnviaEmail.src.Service;
 using NITGEN.SDK.NBioBSP;
 using Org.BouncyCastle.Ocsp;
 using static NITGEN.SDK.NBioBSP.NBioAPI.Type;
@@ -10,7 +11,7 @@ namespace AppEnviaEmail
         uint ret;
         string strFIRHex;
         string strFIRText;
-        NBioAPI.Type.FIR biFIR1; // objeto que armazena a digital em binário
+        FIR biFIR1; // objeto que armazena a digital em binário
         string strFIRText15; // variável para armazenar a string de 15 caracteres
         private TextBox txtNome; 
         private Label lblNome;
@@ -65,10 +66,12 @@ namespace AppEnviaEmail
              * Captura a biometria
              */
 
-            string nome = txtNome.Text.Trim();
 
-            Biometric biometric = new Biometric();
-            biometric.Captura(nome);
+            //Biometric biometric = new Biometric(); // Classe de Padilha
+
+
+            string nome = txtNome.Text.Trim();
+            LeitorBiometrico.Captura(nome);
 
         }
 
@@ -78,8 +81,10 @@ namespace AppEnviaEmail
              * Captura e compara a biometria
              */
 
-            Biometric biometric = new Biometric();
-            biometric.Comparar();
+            //Biometric biometric = new Biometric(); // Classe de Padilha
+
+            string nome = txtNome.Text.Trim();
+            LeitorBiometrico.Comparar(nome);
         }
     }
 }

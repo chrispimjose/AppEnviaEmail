@@ -20,10 +20,10 @@ USE `database_odontologia` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `database_odontologia`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `digital_code` VARBINARY(255) NOT NULL,
+  `nome` VARCHAR(45) UNIQUE NOT NULL,
+  `template` TEXT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `digital_code_UNIQUE` (`digital_code` ASC))
+  UNIQUE INDEX `template_UNIQUE` (`template` ASC))
 ENGINE = InnoDB;
 
 
